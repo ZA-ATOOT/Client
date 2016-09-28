@@ -1,0 +1,64 @@
+.itemsWrapper {
+	width: 80%;
+	margin: 0 auto;
+}
+.itemsWrapper .item {
+    width: 19%;
+    border: 1px solid #000000;
+    float: right;
+    margin: .5%;
+    padding: 10px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.item .img {
+	width: 100%;
+    height: 160px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    cursor: pointer;
+}
+.detailsBtn {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.popupWrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+}
+.popup {
+	position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 500px;
+    max-width: 500px;
+}
+
+.popup img {
+	width: 100%;
+}
+
+.closePoup {
+	position: absolute;
+    right: -12px;
+    top: -13px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: red;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+}

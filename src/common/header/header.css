@@ -1,0 +1,19 @@
+.headerWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  min-width: 1280px;
+}
+
+.navItem {
+  display: inline-block;
+  list-style: none;
+}
+
+.nav {
+  text-align: right;
+  padding: 10px;
+  margin: 0;
+}
