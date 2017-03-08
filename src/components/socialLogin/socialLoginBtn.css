@@ -1,0 +1,62 @@
+.facebookLogin {
+  background-color: #4A6EA9;
+  color: #ffffff;
+  overflow: hidden;
+  padding: 10px;
+  border-radius: 3px;
+  position: relative;
+  cursor: pointer;
+}
+.smallLogin {
+  padding: 5px;
+}
+
+.facebookLogin .loginIcon {
+  color: #4A6EA9;
+  background-color: #ffffff;
+  border-radius: 2px;
+  padding: 6px 0 0 6px;
+  font-size: 34px;
+  line-height: 34px;
+  float: left;
+  margin: 0 5px 0 0;
+}
+.smallLogin .loginIcon{
+  padding: 2px 0 0 3px;
+  font-size: 19px;
+  line-height: 19px;
+  float: left;
+  margin: 0 5px 0 0;
+}
+.facebookLogin .loginText {
+  float: left;
+  font-size: 20px;
+  line-height: 40px; 
+}
+.smallLogin .loginText {
+  font-size: 16px;
+  line-height: 21px; 
+}
+.facebookLogin .loginAs {
+  padding: 0 58px 0 0;
+  float: left;
+  line-height: 40px;
+  font-size: 25px;
+}
+.smallLogin .loginAs {
+  padding: 0 31px 0 0;
+  line-height: 20px;
+  font-size: 15px;
+}
+.facebookLogin .fbLoginImage {
+  width: 60px;
+  position: absolute;
+  top: 0px;
+  right: 0;
+}
+.smallLogin .fbLoginImage {
+  width: 31px;
+  position: absolute;
+  top: 0px;
+  right: 0;
+}

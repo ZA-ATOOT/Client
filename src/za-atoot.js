@@ -11,6 +11,8 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 
+import { getAllProducts } from 'actions/actionCreators'
+
 
 // Routes
 import Routes from 'container/Routes';
@@ -21,6 +23,7 @@ import './base.css';
 /* Import our data store */
 import store, { history } from './store';
 
+store.dispatch(getAllProducts());
 
 // ID of the DOM element to mount app on
 const DOM_APP_EL_ID = 'app';

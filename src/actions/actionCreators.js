@@ -11,11 +11,41 @@
   We use const to store the name of the event so it is immutable
 
 */
-import { INSERT_PRODACT } from './types';
+import axios from 'axios';
 
-export function insertProdact(prodact) {
-  return {
-    type: INSERT_PRODACT,
-    prodact
+import { ADD_PRODACT, RECEIVE_PRODUCTS, ALL_PRODUCTS, UPDATE_PRODUCT } from './productTypes';
+
+const ROOT_URL = 'http://localhost:3090';
+
+export const addProduct = (product) => {
+  console.log(product)
+    return function(dispatch) {      
+    axios.post(`${ROOT_URL}/products`, {
+      ...product
+    })
+      .then(response => {
+        dispatch({
+          type: ADD_PRODACT,
+          product: response.data
+        });
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+  }
+}
+
+export const getAllProducts = () => {
+  return function(dispatch) {
+    axios.get(`${ROOT_URL}/products`)
+      .then(response => {
+        dispatch({
+          type: RECEIVE_PRODUCTS,
+          products: response.data
+        });
+      })
+      .catch((err) => {
+        console.log("error", err)
+      });
   }
 }

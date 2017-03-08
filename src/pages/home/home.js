@@ -1,92 +1,160 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import * as actions from 'actions/actionCreators';
-import prodatcList from 'data/prodatcList';
-import style from './home.css'
+import * as userActions from 'actions/userActions';
+import StaticFunctions from 'staticFunctions/staticFunctions';
 
-var prodactItems = {
-  title: "חולצות",
-  description: "מתאים לגילאי 5-10",
-  image: "http://ourson.co.il/images/babys/ourson-baby-2.jpg",
-  price: "70",
-  changeOptions: true,
+import SocialLogin from 'components/socialLogin/socialLogin';
+import SocialLoginBtn from 'components/socialLogin/socialLoginBtn';
+import Header from 'common/header/header';
+import Product from 'components/product/product';
+import ProductDetails from 'components/productDetails/productDetails';
+import AddProduct from 'components/addProduct/addProduct';
+import Popup from 'components/popup/popup';
+import NewUser from 'components/newUser/newUser';
+import FinishRegsterMsg from 'components/finishRegsterMsg/finishRegsterMsg'
 
-}
+import loader from 'images/loader.gif';
+import icons from 'elegantFont.css';
+
+import styleD from './home.css';
+import styleM from './homeM.css';
+
+var style = StaticFunctions.mobilecheck() ? styleM : styleD
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lagreImg: "",
-      showImg: false
+      showAddProduct: false,
+      showLogin: false,
+      productDetails: "",
+      showDetails: false,
+      finishRegsterMsg: false
+    //user: StaticFunctions.getLocalStorage("_ui", false, true)
+    }
+    var ui = StaticFunctions.getLocalStorage("_ui", false, true)
+    if (ui) {
+      this.props.signinUser(StaticFunctions.getLocalStorage("_ui", false, true))
     }
   }
-  imgPopup = (img, showImg) => {
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.products.length != nextProps.products.length) {
+      this.setState({
+        showAddProduct: false
+      })
+    }
+  }
+
+  showSocialLogin = (show) => {
     this.setState({
-      lagreImg: img,
-      showImg: showImg
+      showLogin: show
+    })
+  }
+
+  showAddProduct = (show) => {
+    const {user} = this.props;
+    if (!user.id) {
+      this.showSocialLogin(true);
+      return
+    } else if (user.isNewUser) {
+      this.finishRegster()
+      return
+    }
+    this.setState({
+      showAddProduct: show,
+      finishRegsterMsg: false
     });
+  }
+
+  finishRegster = () => {
+    this.setState({finishRegsterMsg: true})
+  }
+
+
+  handleSocialLogin = (user, err) => {
+    if (err) {
+      return
+    }
+    this.showSocialLogin(false)
+    //save user id to the local storage
+    StaticFunctions.setLocalStorage("_ui", user._profile, false, true)
+    //send user profile to the Data Base
+    this.props.signinUser(user._profile)
+
+  }
+
+  logoutUser = () => {
+    StaticFunctions.deleteLocalStorage("_ui")
+    this.props.signoutUser({})
   }
 
   render() {
-    const {img, showImg} = this.state;
-    console.log("home", this.props)
-    var items = prodatcList.map((val, i) => {
-      return (
-        <div key={ i } className={ style.item }>
-          <div className={ style.description }>
-            <div>
-              { val.title }
-            </div>
-            <hr />
-            <div>
-              { val.description }
-            </div>
-          </div>
-          <div className={ style.img } style={ { backgroundImage: `url(${val.image}` } } onClick={ this.imgPopup.bind(null, val.image, true) }></div>
-          <div className={ style.details }>
-            <div>
-              { val.price } תותים
-            </div>
-            <hr />
-            <div className={ style.detailsBtn }>
-              <button>פרטים</button>
-              <div className={ style.btns }>
-                <input readOnly type="checkbox" checked={ val.changeOptions } />
-                <label>החלפה</label>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    });
+    const {img, showImg, showAddProduct, showLogin, showDetails, finishRegsterMsg} = this.state;
+    const {products, user} = this.props;
 
-    var imagePopup = <div className={ style.popupWrapper }>
-                       <div className={ style.popup }>
-                         <span className={ style.closePoup } onClick={ this.imgPopup.bind(null, null, false) }>X</span>
-                         <img src={ this.state.lagreImg } />
-                       </div>
-                     </div>
+    if (products.length < 0) {
+      return (
+        <img src={ loader } />
+      )
+    }
+
     return (
-      <div>
-        <div className={ style.itemsWrapper }>
-          { items }
+      <div className={ style.main }>
+        <Header handleSocialLogin={ this.handleSocialLogin } logoutUser={ this.logoutUser } />
+        { showAddProduct &&
+          <Popup closeBtn={ true } onClick={ this.showAddProduct.bind(null, false) }>
+            <AddProduct />
+          </Popup> }
+        <div className={ style.productWrapper }>
+          { products.map((val, i) => {
+              if (val.available) {
+                return (
+                  <Product key={ i } product={ val } showSocialLogin={ this.showSocialLogin } finishRegster={this.finishRegster}/>
+                )
+              }
+            }) }
+          { showImg ? imagePopup : "" }
         </div>
-        { showImg ? imagePopup : "" }
+        <div className={ style.addProduct } onClick={ this.showAddProduct.bind(null, true) }>
+          <div className={ style.cross }></div>
+        </div>
+        { showLogin &&
+          <Popup closeBtn={ true } onClick={ this.showSocialLogin.bind(null, false) }>
+            <div className={ style.socialLoginWrapper }>
+              <div>
+                You Must Login to see Product Details
+              </div>
+              <SocialLoginBtn handleSocialLogin={ this.handleSocialLogin }
+                loginSize="large"
+                loginStatus={ this.loginStatus }
+                user={ user } />
+            </div>
+          </Popup> }
+        { user.isNewUser &&
+          <Popup closeBtn={ false }>
+            <NewUser isNewUser={ this.isNewUser } />
+          </Popup> }
+        { finishRegsterMsg && 
+          <Popup>
+            <FinishRegsterMsg />
+          </Popup> }
       </div>
       );
   }
 }
 
-
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
-    prodatcList: state.prodatcList
+    products: state.products,
+    user: state.user,
+    isNew: state.user.isNew
   }
 }
 
-export default connect(mapStateToProps, actions)(Home)
+export default connect(mapStateToProps, userActions)(Home)
+
 
 

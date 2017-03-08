@@ -12,13 +12,17 @@ When state gets large, it makes sense to have multiple reducers that only deal w
 */
 
 import { routerReducer } from 'react-router-redux'; // we need this for react-router
-import authReducer from './authReducer';
-import insertProdact from './insertProdact';
+//import authReducer from './authReducer';
+import user from './user';
+import userStatus from './userStatus';
+import products from './products';
 // Combine all our reducers togeher
 const rootReducer = combineReducers({
   form,
-  auth: authReducer,
-  prodatcList: insertProdact,
+  user,
+  userStatus,
+  //auth: authReducer,
+  products,
   routing: routerReducer
 });
 

@@ -32,7 +32,7 @@ module.exports = {
       { test: /\.jsx?$/, exclude: /node_modules/, loader: "babel-loader" },
       { test: /\.css$/, loader: ExtractTextPlugin.extract('style-loader', 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader') },
       { // Loader for images and fonts - if smaller than limit convert to bse64
-        test: /\.(png|jpg|gif|svg|ttf)$/,
+        test: /\.(png|jpg|gif|svg|ttf|eot|woff)$/,
         exclude: /node_modules/,
         loader: 'url-loader?name=/images/mako_vod_html/[name].[ext]&limit=20000'
       }

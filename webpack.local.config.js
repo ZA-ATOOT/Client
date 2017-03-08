@@ -45,7 +45,7 @@ module.exports = {
       { test: /\.jsx?$/, exclude: /node_modules/, loaders: ["react-hot", "babel-loader"] },
       { test: /\.css$/, loader: 'style-loader!css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:5]!postcss-loader' },
       { // Loader for images and fonts - if smaller than limit convert to bse64
-        test: /\.(png|jpg|gif|svg|ttf)$/,
+        test: /\.(png|jpg|gif|svg|ttf|eot|woff)$/,
         exclude: /node_modules/,
         loader: 'url-loader?limit=20000'
       }
