@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
 import * as userActions from 'actions/userActions';
+import * as productActions from 'actions/productActions';
 
 import Popup from 'components/popup/popup';
+import Product from 'components/product/product';
 
 import icons from 'elegantFont.css';
 import style from './productDetails.css';
@@ -14,15 +18,44 @@ class ProductDetails extends Component {
     this.state = {
     }
   }
+  componentWillMount() {
+    this.getMoreFromProduct();
+  }
 
-  addLikeToProduct = () => {
-    const {product, user} = this.props;
-    this.props.updateUserArray(user.id, {
-      like: product._id
+  getMoreFromProduct = () => {
+    const {searches, product, findProductsFromArrayOfIds} = this.props;
+    var categoriesConncat = product.categories.concat(product.otherCategories)
+    if (searches) {
+      var searchResult = searches.reduce((all, item, index) => {
+        categoriesConncat.map((val, i) => {
+          if (item._id.indexOf(val) > -1) {
+            if (all.length == 0) {
+              all.push(item.value.documents)
+            } else {
+              all.concat(val)
+            }
+
+          }
+        })
+        return all
+      }, []);
+
+      findProductsFromArrayOfIds(...searchResult)
+    }
+  }
+
+  addLikeShare = (productId, type, isOn) => {
+    const {product, user, addLikeShare} = this.props;
+    addLikeShare(user.id, {
+      productId,
+      isOn,
+      type
     })
   }
   render() {
-    const {product, user} = this.props;
+    const {product, user, productsSearchResult} = this.props;
+    var usreLike = user.like.indexOf(product._id) > -1;
+    var usreShare = user.share.indexOf(product._id) > -1;
     return (
       <div className={ style.showDetails } dir="rtl">
         <ul className={ style.product }>
@@ -37,15 +70,13 @@ class ProductDetails extends Component {
                       </div>
                       <div className={ `${icons.icon_cart_alt} ${style.icons}` }></div>
                     </li>
-                    <li className={ `${style.like} ${style.iconsWrapper}` }
-                      title="like"
-                      onClick={ this.addLikeToProduct }>
+                    <li className={ `${style.like} ${style.iconsWrapper} ${ usreLike ? style.userLike : ""}` } title="like" onClick={ this.addLikeShare.bind(null, product._id, "like", usreLike) }>
                       <div className={ `${style.iconsText}` }>
                         אהבתי
                       </div>
-                      <div className={ `${icons.icon_heart_alt} ${style.icons} ${(user.like.indexOf(product._id) > -1) ? style.userLike : ""}` }></div>
+                      <div className={ `${icons.icon_heart_alt} ${style.icons}` }></div>
                     </li>
-                    <li className={ `${style.share} ${style.iconsWrapper}` } title="share">
+                    <li className={ `${style.share} ${style.iconsWrapper} ${ usreShare ? style.userLike : ""}` } title="share" onClick={ this.addLikeShare.bind(null, product._id, "share", usreShare) }>
                       <div className={ style.iconsText }>
                         שתף
                       </div>
@@ -97,8 +128,27 @@ class ProductDetails extends Component {
             { product.price }<img src={ strawberry } width="20" />
           </li>
           <li className={ style.location }>
-            { product.location }
+            { product.city }
           </li>
+          { (productsSearchResult.length > 0) &&
+            <li>
+              <br />
+              <hr />
+              <br />
+              <div>
+                עוד מאותו הסוג
+              </div>
+              { productsSearchResult.map((val, index) => {
+                  if (val._id != product._id) {
+                    return (
+                      <Product key={ index }
+                        width="33%"
+                        height="300px"
+                        product={ val } />
+                    )
+                  }
+                }) }
+            </li> }
         </ul>
       </div>
     )
@@ -107,8 +157,13 @@ class ProductDetails extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    searches: state.searches,
+    user: state.user,
+    productsSearchResult: state.productsSearchResult
   }
 }
 
-export default connect(mapStateToProps, userActions)(ProductDetails)
+var actions = function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Object.assign({},userActions, productActions), dispatch)
+}
+export default connect(mapStateToProps, actions)(ProductDetails)

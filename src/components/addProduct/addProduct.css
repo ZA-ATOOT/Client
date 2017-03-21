@@ -1,13 +1,22 @@
 .newProductWrapper {
 	background-color: #ffffff;
 	border-radius: 3px;
+	width: 600px;
 }
-.newProductWrapper form {
+.addProductTitle {
+	text-align: center;
+	font-size: 25px;
+	padding: 10px;
+}
+.form {
 	padding: 20px;
+	margin: 0;
 }
-.newProductWrapper input {
+.textInput,
+.textareaInput,
+.submitForm {
 	display: block;
-	width: 400px;
+	width: 100%;
 	height: 30px;
 	border: none;
 	border: 1px solid #5a8fd5;
@@ -16,15 +25,29 @@
 	padding: 0 3px;
 	color: #5a8fd5;
 	background-color: transparent;
+  font-family: varela;
+  font-weight: 300;
+  font-size: 15px;
+  outline: none;
 
 }
-.newProductWrapper input[type=submit]{
+.textareaInput {
+	height: 150px;
+	resize: none;
+}
+.formWrapper {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.submitForm{
 	border:none;
 	background-color: #5a8fd5;
 	color: #ffffff;
 	font-size: 20px;
 	height: 40px;
 	margin: 15px 0 0; 
+	cursor: pointer;
 }
 .loaderWrapper {
 	width: 100%;
@@ -36,4 +59,91 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+}
+.productImage {
+	width: 60%;
+	text-align: center;
+	padding: 0 1% 0 0;
+}
+.productInfo {
+	width: 40%;
+	padding: 0 0 0 1%;
+}
+
+.imageWrapper {
+	width: 100%;
+  height: 278px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  margin: 0 0 10px 0;
+}
+.required {
+	border: 1px solid red;
+}
+
+.categoriesTitle {
+	font-size: 25px;
+	padding: 15px 0 0;
+}
+.categoriesTitle span {
+	font-size: 15px;
+}
+.categoriesWrapper {
+	display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+  padding: 10px 0;
+}
+.categoriesWrapper ul {
+	margin: 0 19px;
+}
+.group {
+  text-align: center;
+  font-size: 20px;
+  background-color: antiquewhite;
+  padding: 5px;
+  border-radius: 3px;
+  margin: 0 0 7px 0;
+}
+.category {
+  width: 49.5%;
+  display: inline-block;
+  margin: 0 0 1% 0;
+  border: 1px solid #5a8fd5;
+  border-radius: 4px;
+  padding: 10px;
+}
+.addCategoryMsg {
+	font-size: 20px;
+	color: red;
+}
+.moreCategories label {
+	display: block;
+	text-align: center;
+	font-size: 13px;
+}
+.moreCategories input {
+	display: block;
+  width: 100%;
+  height: 30px;
+  border: 1px solid #5a8fd5;
+  margin: 10px 0;
+  border-radius: 3px;
+  padding: 0 3px;
+  color: #5a8fd5;
+  background-color: transparent;
+  font-family: varela;
+  font-weight: 300;
+  font-size: 15px;
+  outline: none;
+}
+.moreCategories span {
+	font-size: 11px;
+}
+.otherTetx {
+	font-size: 12px;
 }

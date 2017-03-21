@@ -18,12 +18,21 @@ class SocialLoginBtn extends Component {
       loginStatus: null
     }
 
-    if (!this.props.user.id) {
+    /*if (!this.props.user.id) {
+      console.log("userId")
       loaders.facebook(document, "", "171334156706202").then((val) => {
         this.props.loginStatus(val);
       })
-    }
+    }*/
   }
+
+  logoutUser = () => {
+    this.props.logoutUser()
+    loaders.facebook(document, "", "171334156706202").then((val) => {
+        this.props.loginStatus(val);
+      })
+  }
+
   handleLoginStatus = (userStatus) => {
 
     if (userStatus.status) {
@@ -46,7 +55,7 @@ class SocialLoginBtn extends Component {
     const {handleSocialLogin, logoutUser, user, loginSize, userStatus} = this.props;
     if (user.id) {
       return (
-        <div className={ `${style.facebookLogin} ${style.smallLogin}` } onClick={ logoutUser }>
+        <div className={ `${style.facebookLogin} ${style.smallLogin}` } onClick={ this.logoutUser }>
           <span className={ `${style.loginIcon} ${icons.social_facebook}` }></span>
           <span className={ style.loginAs }><span>Logout</span> <img src={ user.profilePicURL } className={ style.fbLoginImage } /></span>
         </div>
@@ -54,6 +63,7 @@ class SocialLoginBtn extends Component {
     }
     return (
       <SocialLogin provider="facebook"
+        userId={user.id}
         appId="171334156706202"
         callback={ handleSocialLogin }>
         <div className={ `${style.facebookLogin} ${loginSize == "small" ? style.smallLogin : ""}` }>

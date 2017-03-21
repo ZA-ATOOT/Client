@@ -13,6 +13,10 @@
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
+    border-radius: 5px;
+}
+.userProduct.product {
+    border: 1px solid red;
 }
 .titleWrapper {
     display: flex;
@@ -64,4 +68,8 @@
 .icons {
     color: red;
     font-size: 15px;
+}
+.socialLoginWrapper {
+  background-color: #ffffff;
+  padding: 40px;
 }

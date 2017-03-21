@@ -4,8 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 
 import * as userActions from 'actions/userActions';
 import israelCities from 'data/israelCities'
-
-import loader from 'images/loader.gif';
+import Loader from 'components/loader/loader';
 
 import style from './addUserDetails.css';
 const validate = values => {
@@ -62,7 +61,7 @@ class AddUserDetails extends Component {
       <div className={ style.addUserDetailsWrapper }>
         { this.state.showLoader &&
           <div className={ style.loaderWrapper }>
-            <img src={ loader } width="100" className={ style.loader } />
+            <Loader />
           </div> }
           <div className={style.explanation}>אנא מלא את התיבות כדי להמשיך</div>
         <form onSubmit={ handleSubmit(this.handleAddUserDetails.bind(this)) }>

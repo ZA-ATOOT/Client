@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react'
 
 import config from './config';
-import loaders from './loaders';
 
 class SocialUser {
   constructor() {
@@ -162,8 +161,7 @@ export default class SocialLogin extends Component {
 
   componentDidMount() {
     const d = document
-    const appId = this.props.appId
-    loaders.facebook(d, this.id, appId, this.handleSocialLoginInvokeSuccess, this.handleSocialLoginInvokeFailure)
+    const { appId, userId } = this.props;
   }
 
   render() {

@@ -2,22 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, li } from 'react-router';
 
-import * as userActions from 'actions/userActions';
+import * as productActions from 'actions/productActions';
 
 import SocialLoginBtn from 'components/socialLogin/socialLoginBtn';
 import StaticFunctions from 'staticFunctions/staticFunctions';
 
 import Popup from 'components/popup/popup';
 import loaders from 'components/socialLogin/loaders';
+import SearchProduct from 'components/searchProduct/searchProduct';
 
 import style from './header.css';
 import icons from 'elegantFont.css';
 import zaatootLogo from 'images/zaatootLogo.jpg';
 import facebookLogo from 'images/facebook.png';
-import loader from 'images/loader.gif';
 
 class Header extends Component {
-
   render() {
     const {user, logoutUser, handleSocialLogin} = this.props
     return (
@@ -29,16 +28,14 @@ class Header extends Component {
           <li>
             <SocialLoginBtn handleSocialLogin={ handleSocialLogin }
               loginSize="small"
-              logoutUser={ logoutUser }
-              user={ user } />
+              logoutUser={ logoutUser } />
           </li>
           <li className={ style.navItem }>
             <Link className={ `${style.navLi} ${style.headerBtn}` } to="/"> Home
             </Link>
           </li>
-          <li className={ `${style.navItem} ${style.search}` }>
-            <input type="text" className={ style.searchInput } placeholder="חפש" />
-            <span className={ `${style.icon_search} ${icons.icon_search}` }></span>
+          <li className={ `${style.navItem} ${style.search}` }>            
+            <SearchProduct  />
           </li>
           <li className={ style.navItem }>
             <span className={ icons.icon_menu_square_alt }></span>
@@ -59,8 +56,9 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    searches: state.searches
   };
 }
 
-export default connect(mapStateToProps, userActions)(Header)
+export default connect(mapStateToProps, productActions)(Header)

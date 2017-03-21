@@ -9,7 +9,7 @@
 * {
 	box-sizing: border-box;
 }
-html, body {
+html, body, hr {
 	margin: 0;
 	padding: 0;
 }

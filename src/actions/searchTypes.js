@@ -1,0 +1,1 @@
+export const ALL_SEARCHES = 'all_searches';

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Popup from 'components/popup/popup';
 import ProductDetails from 'components/productDetails/productDetails';
+import SocialLoginBtn from 'components/socialLogin/socialLoginBtn';
 
 import icons from 'elegantFont.css';
 import style from './product.css';
@@ -16,13 +17,20 @@ class Product extends Component {
       lagreImg: "",
       showImg: false,
       showAddProduct: false,
-      showDetails: false
+      showDetails: false,
+      showLogin: false
     }
   }
+  showSocialLogin = (show) => {
+    this.setState({
+      showLogin: show
+    })
+  }
+
   showDetails = (show) => {
     const {user, showSocialLogin, finishRegster} = this.props
     if (!user.id) {
-      showSocialLogin(true);
+      this.showSocialLogin(true);
       return
     } else if(user.isNewUser){
       finishRegster()
@@ -34,10 +42,12 @@ class Product extends Component {
   }
   render() {
     const {product, user} = this.props;
-    const {lagreImg, showImg, showDetails} = this.state
+    const {lagreImg, showImg, showDetails, showLogin} = this.state
+    const { width, height } = this.props;
+    var isUserProduct = product.seller.id == user.id;
     return (
-      <div className={ style.productContent }>
-        <div className={ style.product } dir="rtl" onClick={ this.showDetails.bind(null, true) }>
+      <div className={ style.productContent } style={{width: width, height: height}}>
+        <div className={ `${style.product} ${isUserProduct ? style.userProduct : ""}` } dir="rtl" onClick={ this.showDetails.bind(null, true) }>
           <div className={ style.description }>
             <div className={style.titleWrapper}>
               <div>{ product.title }</div>
@@ -54,13 +64,22 @@ class Product extends Component {
               { product.price }<img src={ strawberry } width="20" />
             </div>
             <div>
-              { product.location }
+              { product.city }
             </div>
           </div>
         </div>
         { showDetails &&
           <Popup closeBtn={true} onClick={ this.showDetails.bind(null, false) }>
               <ProductDetails product={ product } />
+          </Popup> }
+          { showLogin &&
+          <Popup closeBtn={ true } onClick={ this.showSocialLogin.bind(null, false) }>
+            <div className={ style.socialLoginWrapper }>
+              <div>
+                You Must Login to see Product Details
+              </div>
+              <SocialLoginBtn handleSocialLogin={ this.handleSocialLogin } loginSize="large" />
+            </div>
           </Popup> }
       </div>
     )

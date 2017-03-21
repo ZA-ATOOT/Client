@@ -74,6 +74,24 @@ export const updateUserArray = (userId, param) =>{
   }
 }
 
+export const addLikeShare = (userId, param) =>{
+      console.log(param)
+  return function(dispatch) {
+    axios.put(`${ROOT_URL}/addLikeShare/${userId}`,{
+      ...param
+    })
+      .then(response => {
+        dispatch({
+          type: UPDATE_USER,
+          user: response.data
+        });
+      })
+      .catch((err) => {
+        console.log("error", err)
+      });
+  }
+}
+
 export function changeIsNew(isNew) {
   return {
     type: USER_IS_NEW,

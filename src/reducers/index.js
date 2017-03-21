@@ -16,13 +16,17 @@ import { routerReducer } from 'react-router-redux'; // we need this for react-ro
 import user from './user';
 import userStatus from './userStatus';
 import products from './products';
+import searches from './searches';
+import productsSearchResult from './productsSearchResult'
 // Combine all our reducers togeher
 const rootReducer = combineReducers({
   form,
   user,
   userStatus,
   //auth: authReducer,
+  searches,
   products,
+  productsSearchResult,
   routing: routerReducer
 });
 

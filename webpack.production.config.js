@@ -10,7 +10,7 @@ module.exports = {
   output: {
     path: __dirname + "/build/",
     filename: "app.js",
-    publicPath: "http://ircs.mako.co.il"
+    //publicPath: "http://ircs.mako.co.il"
   },
 
   plugins: [
@@ -34,7 +34,7 @@ module.exports = {
       { // Loader for images and fonts - if smaller than limit convert to bse64
         test: /\.(png|jpg|gif|svg|ttf|eot|woff)$/,
         exclude: /node_modules/,
-        loader: 'url-loader?name=/images/mako_vod_html/[name].[ext]&limit=20000'
+        loader: 'url-loader?name=/images/zaatoot/[name].[ext]&limit=20000'
       }
     ]
   },

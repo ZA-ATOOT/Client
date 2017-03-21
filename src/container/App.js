@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from 'actions/actionCreators';
+import * as productActions from 'actions/productActions';
 
 /*
   Components
@@ -41,7 +41,7 @@ function mapStateToProps(state) {
 */
 
 export function mapDispatchToProps(dispatch) {
-  return bindActionCreators(actions, dispatch);
+  return bindActionCreators(productActions, dispatch);
 }
 
 
