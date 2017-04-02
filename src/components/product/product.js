@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Popup from 'components/popup/popup';
 import ProductDetails from 'components/productDetails/productDetails';
-import SocialLoginBtn from 'components/socialLogin/socialLoginBtn';
+import SocialLoginPopup from 'components/socialLogin/socialLoginPopup';
 
 import icons from 'elegantFont.css';
 import style from './product.css';
@@ -28,31 +28,40 @@ class Product extends Component {
   }
 
   showDetails = (show) => {
-    const {user, showSocialLogin, finishRegster} = this.props
-    if (!user.id) {
-      this.showSocialLogin(true);
-      return
-    } else if(user.isNewUser){
-      finishRegster()
+    const {user, showSocialLogin, finishRegster, disableShowDetails, product, switchProduct} = this.props
+    if (disableShowDetails) {
+      if (switchProduct) {
+        switchProduct(product)
+      }
       return
     }
-    this.setState({
-      showDetails: show
-    })
+    
+    if (!user.id) {
+      this.showSocialLogin(true);
+    } else if (user.isNewUser) {
+      finishRegster();
+    } else {
+      this.setState({
+        showDetails: show
+      })
+    }
+
+
   }
   render() {
-    const {product, user} = this.props;
-    const {lagreImg, showImg, showDetails, showLogin} = this.state
-    const { width, height } = this.props;
+    const {product, user, width, height} = this.props;
+    const {lagreImg, showImg, showDetails, showLogin} = this.state;
     var isUserProduct = product.seller.id == user.id;
     return (
-      <div className={ style.productContent } style={{width: width, height: height}}>
+      <div className={ style.productContent } style={ { width: width, height: height } }>
         <div className={ `${style.product} ${isUserProduct ? style.userProduct : ""}` } dir="rtl" onClick={ this.showDetails.bind(null, true) }>
           <div className={ style.description }>
-            <div className={style.titleWrapper}>
-              <div>{ product.title }</div>
-              {user.like && (user.like.indexOf(product._id) > -1) && <div className={ `${icons.icon_heart} ${style.icons}` }></div>}
-            </div>            
+            <div className={ style.titleWrapper }>
+              <div>
+                { product.title }
+              </div>
+              { user.like && (user.like.indexOf(product._id) > -1) && <div className={ `${icons.icon_heart} ${style.icons}` }></div> }
+            </div>
             <hr />
             <div>
               { product.description }
@@ -69,18 +78,10 @@ class Product extends Component {
           </div>
         </div>
         { showDetails &&
-          <Popup closeBtn={true} onClick={ this.showDetails.bind(null, false) }>
-              <ProductDetails product={ product } />
+          <Popup closeBtn={ true } onClick={ this.showDetails.bind(null, false) }>
+            <ProductDetails product={ product } />
           </Popup> }
-          { showLogin &&
-          <Popup closeBtn={ true } onClick={ this.showSocialLogin.bind(null, false) }>
-            <div className={ style.socialLoginWrapper }>
-              <div>
-                You Must Login to see Product Details
-              </div>
-              <SocialLoginBtn handleSocialLogin={ this.handleSocialLogin } loginSize="large" />
-            </div>
-          </Popup> }
+        <SocialLoginPopup showSocialLogin={ this.showSocialLogin } showLogin={ showLogin } />
       </div>
     )
   }

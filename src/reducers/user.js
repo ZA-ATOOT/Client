@@ -28,6 +28,7 @@ export default function(state = {}, action) {
       return {
         ...user
       }
+      break;
   }
 
   return state;

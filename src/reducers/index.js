@@ -17,16 +17,22 @@ import user from './user';
 import userStatus from './userStatus';
 import products from './products';
 import searches from './searches';
-import productsSearchResult from './productsSearchResult'
+import productsSearchResult from './productsSearchResult';
+import moreOfTheSame from './moreOfTheSame';
+import userLikesAndShares from './userLikesAndShares';
+import initialProductValues from './initialProductValues';
 // Combine all our reducers togeher
 const rootReducer = combineReducers({
   form,
   user,
   userStatus,
   //auth: authReducer,
+  moreOfTheSame,
+  userLikesAndShares,
   searches,
   products,
   productsSearchResult,
+  initialProductValues,
   routing: routerReducer
 });
 

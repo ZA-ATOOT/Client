@@ -4,9 +4,9 @@ import { Field } from 'redux-form';
 import categoriesHe from 'data/categoriesHe1';
 
 import style from './addProduct.css';
-const renderField = ({input, label, type, value, meta: {touched, error}}) => (
+const renderField = ({input, label, type, value, checked, meta: {touched, error}}) => (
   <label>
-    <input {...input} type={ type } value={ label } />
+    <input {...input} type={ type } value={ label } checked={checked} />
     { label }
   </label>
 )
@@ -35,6 +35,7 @@ export default class Categories extends Component {
                                   <li key={ `item${z}` }>
                                     <Field name={ item }
                                       type="checkbox"
+                                      checked={false}
                                       component={ renderField }
                                       label={ item } />
                                   </li>

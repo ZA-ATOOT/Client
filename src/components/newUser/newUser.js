@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import StaticFunctions from 'staticFunctions/staticFunctions';
-import AddUserDetails from 'components/addUserDetails/addUserDetails';
 import * as userActions from 'actions/userActions';
+import StaticFunctions from 'staticFunctions/staticFunctions';
+
+import AddUserDetails from 'components/addUserDetails/addUserDetails';
+import UserProfile from 'components/userProfile/userProfile';
 
 import style from './newUser.css';
 
@@ -37,21 +39,7 @@ class NewUser extends Component {
     return (
       <div className={ style.newUserWrapper } dir="rtl">
         <div className={ style.newUser }>
-          <div className={ style.userDetails }>
-            <div className={ style.userImageBG }>
-              <img src={ user.profilePicURL } width="100%" />
-            </div>
-            <div className={ style.userContent }>
-              <div className={ style.userImage } style={ { backgroundImage: `url(${user.profilePicURL})` } }>
-              </div>
-              <div className={ `${style.userName} ${style.userInfo}` }>
-                { user.name }
-              </div>
-              <div className={ `${style.userEmail} ${style.userInfo}` }>
-                { user.email }
-              </div>
-            </div>
-          </div>
+          <UserProfile />
           { stepes == 0 &&
             <div className={ style.newUserGreeting }>
               <div className={ style.greeting }>

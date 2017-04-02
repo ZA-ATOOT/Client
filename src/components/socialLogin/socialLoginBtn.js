@@ -17,13 +17,6 @@ class SocialLoginBtn extends Component {
     this.state = {
       loginStatus: null
     }
-
-    /*if (!this.props.user.id) {
-      console.log("userId")
-      loaders.facebook(document, "", "171334156706202").then((val) => {
-        this.props.loginStatus(val);
-      })
-    }*/
   }
 
   logoutUser = () => {
@@ -55,7 +48,7 @@ class SocialLoginBtn extends Component {
     const {handleSocialLogin, logoutUser, user, loginSize, userStatus} = this.props;
     if (user.id) {
       return (
-        <div className={ `${style.facebookLogin} ${style.smallLogin}` } onClick={ this.logoutUser }>
+        <div className={ style.facebookLoginBtn } onClick={ this.logoutUser }>
           <span className={ `${style.loginIcon} ${icons.social_facebook}` }></span>
           <span className={ style.loginAs }><span>Logout</span> <img src={ user.profilePicURL } className={ style.fbLoginImage } /></span>
         </div>
@@ -66,7 +59,7 @@ class SocialLoginBtn extends Component {
         userId={user.id}
         appId="171334156706202"
         callback={ handleSocialLogin }>
-        <div className={ `${style.facebookLogin} ${loginSize == "small" ? style.smallLogin : ""}` }>
+        <div className={ style.facebookLoginBtn }>
           <span className={ `${style.loginIcon} ${icons.social_facebook}` }></span>
           { this.handleLoginStatus(this.props.userStatus) }
         </div>

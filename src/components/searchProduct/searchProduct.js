@@ -21,7 +21,7 @@ class SearchProduct extends Component {
   }
   
   componentWillMount() {
-    this.setSearchOnreload();
+    this.setSearchOnReload();
   }
 
   onChange = (e) => {
@@ -30,7 +30,7 @@ class SearchProduct extends Component {
     })
   }
 
-  setSearchOnreload = () => {
+  setSearchOnReload = () => {
     const {query} = this.props.routing.locationBeforeTransitions;
     const {searches} = this.props;
 
@@ -40,7 +40,7 @@ class SearchProduct extends Component {
     }
     if (!searches) {
       window.setTimeout(() => {
-        this.setSearchOnreload()
+        this.setSearchOnReload()
       }, 1000)
       return
     }
@@ -48,11 +48,11 @@ class SearchProduct extends Component {
     if (searches && query && query.q) {
       var searchResult = searches.reduce((all, item, index) => {
         if (item._id.indexOf(query.q) > -1) {
-          all.push(item.value.documents)
+          all.push(...item.value.documents)
         }
         return all
       }, []);
-      this.getItems(...searchResult)
+      this.getItems(searchResult)
     }
   }
 

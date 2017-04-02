@@ -5,7 +5,6 @@ export default function(state = null, action) {
     case ALL_SEARCHES:
       var result = action.searches
       return [
-        ...status,
         ...result
       ]
   }

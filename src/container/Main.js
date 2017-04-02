@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import * as userActions from 'actions/userActions';
+import * as productActions from 'actions/productActions';
 import StaticFunctions from 'staticFunctions/staticFunctions';
 
 import Header from 'common/header/header';
@@ -10,7 +12,8 @@ import AddProduct from 'components/addProduct/addProduct';
 import Popup from 'components/popup/popup';
 import NewUser from 'components/newUser/newUser';
 import FinishRegsterMsg from 'components/finishRegsterMsg/finishRegsterMsg';
-import SocialLoginBtn from 'components/socialLogin/socialLoginBtn';
+import SocialLoginPopup from 'components/socialLogin/socialLoginPopup';
+import Notification from 'components/notification/notification';
 
 class Main extends Component {
   constructor(props) {
@@ -20,7 +23,8 @@ class Main extends Component {
       showLogin: false,
       productDetails: "",
       showDetails: false,
-      finishRegsterMsg: false
+      finishRegsterMsg: false,
+      showNotifications: false
     }
   }
   componentWillReceiveProps(nextProps) {
@@ -32,7 +36,7 @@ class Main extends Component {
   }
 
   showAddProduct = (show) => {
-    const {user} = this.props;
+    const {user, setInitialProductValues} = this.props;
     if (!user.id) {
       this.showSocialLogin(true);
       return
@@ -40,6 +44,7 @@ class Main extends Component {
       this.finishRegster()
       return
     }
+    setInitialProductValues(null)
     this.setState({
       showAddProduct: show,
       finishRegsterMsg: false
@@ -50,6 +55,19 @@ class Main extends Component {
     this.setState({
       showLogin: show
     })
+  }
+
+  showNotifications = (show) => {
+    if (show == "headerNotification") {
+      this.setState({
+        showNotifications: !this.state.showNotifications
+      })
+      return
+    }
+    this.setState({
+      showNotifications: show
+    })
+
   }
 
   finishRegster = () => {
@@ -71,6 +89,7 @@ class Main extends Component {
       this.finishRegster()
       return
     }
+    console.log("handleSocialLogin")
 
     this.showSocialLogin(false)
     //save user id to the local storage
@@ -82,15 +101,20 @@ class Main extends Component {
 
   render() {
     const {user} = this.props;
-    const {showAddProduct, finishRegsterMsg, showLogin} = this.state;
+    const {showAddProduct, finishRegsterMsg, showLogin, showNotifications} = this.state;
     return (
       <div id="container">
-        <Header handleSocialLogin={ this.handleSocialLogin } logoutUser={ this.logoutUser } />
-        { this.props.children }
+        <Header handleSocialLogin={ this.handleSocialLogin }
+          showNotifications={ this.showNotifications }
+          logoutUser={ this.logoutUser }
+          showSocialLogin={ this.showSocialLogin } />
+        { React.cloneElement(this.props.children, {
+            handleSocialLogin: this.handleSocialLogin
+          }, {}) }
         <AddProductBtn showAddProduct={ this.showAddProduct } />
         { showAddProduct &&
           <Popup closeBtn={ true } onClick={ this.showAddProduct.bind(null, false) }>
-            <AddProduct />
+            <AddProduct title="הוסף מוצר"/>
           </Popup> }
         { user.isNewUser &&
           <Popup closeBtn={ false }>
@@ -100,10 +124,9 @@ class Main extends Component {
           <Popup>
             <FinishRegsterMsg />
           </Popup> }
-        { showLogin &&
-          <Popup closeBtn={ true } onClick={ this.showSocialLogin.bind(null, false) }>
-            <SocialLoginBtn handleSocialLogin={ this.handleSocialLogin } loginSize="large" />
-          </Popup> }
+        { showNotifications &&
+          <Notification showNotifications={ this.showNotifications } /> }
+        <SocialLoginPopup showSocialLogin={ this.showSocialLogin } showLogin={ showLogin } />
       </div>
       );
   }
@@ -116,5 +139,8 @@ const mapStateToProps = (state) => {
     products: state.products
   }
 }
+var actions = function mapDispatchToProps(dispatch) {
+  return bindActionCreators(Object.assign({}, userActions, productActions), dispatch)
+}
 
-export default connect(mapStateToProps, userActions)(Main)
+export default connect(mapStateToProps, actions)(Main)

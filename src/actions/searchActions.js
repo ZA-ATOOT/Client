@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { ALL_SEARCHES } from './searchTypes';
+import { ALL_SEARCHES, MORE_OF_THE_SANE } from './searchTypes';
 
 const ROOT_URL = 'http://localhost:3090';
 

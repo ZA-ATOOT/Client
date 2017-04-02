@@ -28,9 +28,13 @@ const validate = values => {
 
 const renderField = ({input, label, type, list, meta: {touched, error}}) => (
   <div>
-  <span className={style.requiredStar}>*</span>
-    <input {...input} placeholder={ label } type={ type } list={list} className={`${style.textInput} ${touched && error && style.required}`}/>
-   {/* { touched && (error && <span className={style.required}>{ error }</span>) }*/}
+    <span className={ style.requiredStar }>*</span>
+    <input {...input}
+      placeholder={ label }
+      type={ type }
+      list={ list }
+      className={ `${style.textInput} ${touched && error && style.required}` } />
+    { /* { touched && (error && <span className={style.required}>{ error }</span>) }*/ }
   </div>
 )
 
@@ -46,7 +50,11 @@ class AddUserDetails extends Component {
     this.setState({
       showLoader: true
     })
-    this.props.nextStep({city, address, isNewUser: false})
+    this.props.nextStep({
+      city,
+      address,
+      isNewUser: false
+    })
   }
 
   isNewUser = () => {
@@ -63,15 +71,17 @@ class AddUserDetails extends Component {
           <div className={ style.loaderWrapper }>
             <Loader />
           </div> }
-          <div className={style.explanation}>אנא מלא את התיבות כדי להמשיך</div>
-        <form onSubmit={ handleSubmit(this.handleAddUserDetails.bind(this)) }>
-        <Field name="city"
+        <div className={ style.explanation }>
+          אנא מלא את התיבות כדי להמשיך
+        </div>
+        <form className={style.addUserDetailsForm} onSubmit={ handleSubmit(this.handleAddUserDetails.bind(this)) }>
+          <Field name="city"
             label="הקלד עיר מגורים"
             type="text"
             list="cities"
             component={ renderField } />
           <datalist id="cities">
-          { israelCities.map((city, index) => {
+            { israelCities.map((city, index) => {
                 return (
                   <option key={ index } value={ city.name }>
                     { city.name }
@@ -83,8 +93,10 @@ class AddUserDetails extends Component {
             label="הקלד כתובת מגורים"
             type="text"
             component={ renderField } />
-            <div className={style.requiredText}>*שדות חובה</div>
-          <input type="submit" className={style.submit} value="שלח" />
+          <div className={ style.requiredText }>
+            *שדות חובה
+          </div>
+          <input type="submit" className={ style.submit } value="שלח" />
         </form>
       </div>
       );

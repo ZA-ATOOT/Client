@@ -35,7 +35,7 @@ if (ui) {
     store.dispatch(loginStatus(val));
   })
 }
-store.dispatch(getAllProducts());
+store.dispatch(getAllProducts(0, 20));
 store.dispatch(getAllSearches());
 
 

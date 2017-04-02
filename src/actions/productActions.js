@@ -13,7 +13,7 @@
 */
 import axios from 'axios';
 
-import { ADD_PRODACT, RECEIVE_PRODUCTS, ALL_PRODUCTS, UPDATE_PRODUCT, SEARCH_PRODUCT, PRODUCTS_SEARCH_RESULT } from './productTypes';
+import { ADD_PRODACT, RECEIVE_PRODUCTS, ALL_PRODUCTS, UPDATE_PRODUCT, SEARCH_PRODUCT, PRODUCTS_SEARCH_RESULT, INITIAL_PRODUCT_VALUES } from './productTypes';
 
 const ROOT_URL = 'http://localhost:3090';
 
@@ -34,9 +34,14 @@ export const addProduct = (product) => {
   }
 }
 
-export const getAllProducts = () => {
+export const getAllProducts = (skip, limit) => {
   return function(dispatch) {
-    axios.get(`${ROOT_URL}/products`)
+    axios.get(`${ROOT_URL}/products`,{
+      params: {
+        skip, 
+        limit
+      }
+    })
       .then(response => {
         dispatch({
           type: RECEIVE_PRODUCTS,
@@ -49,7 +54,7 @@ export const getAllProducts = () => {
   }
 }
 
-export const findProductsFromArrayOfIds = (productArr) => {
+export const findProductsFromArrayOfIds = (productArr, type, getFromServer) => {
   return function(dispatch) {
     axios.get(`${ROOT_URL}/findProductsFromArrayOfIds`, {
       params: {
@@ -58,14 +63,22 @@ export const findProductsFromArrayOfIds = (productArr) => {
     })
       .then(response => {
         dispatch({
-          type: PRODUCTS_SEARCH_RESULT,
-          products: response.data
+          type: type || PRODUCTS_SEARCH_RESULT,
+          products: response.data,
+          getFromServer
         });
       })
       .catch((err) => {
         console.log("error", err)
       });
   }
+}
+
+export const setInitialProductValues = (products) => {
+  return {
+    type: INITIAL_PRODUCT_VALUES,
+    products
+  };
 }
 
 

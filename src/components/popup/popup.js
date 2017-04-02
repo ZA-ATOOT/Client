@@ -10,9 +10,9 @@ class Popup extends Component {
     this.props.onClick()
   }
   overlayClosePopup = (e) => {
-     if(e.target.dataset.popup == "overlayWrapper"){
+    if (e.target.dataset.popup == "overlayWrapper") {
       this.props.onClick()
-     }
+    }
   }
 
   componentWillMount() {
@@ -24,14 +24,15 @@ class Popup extends Component {
   }
 
   render() {
-    const { closeBtn } = this.props
+    const {closeBtn} = this.props
     return (
-      <div className={style.overlayWrapper} onClick={this.overlayClosePopup} data-popup="overlayWrapper">
-        <div className={ style.popupWrapper } >
-          {closeBtn && <div className={ style.closePopup } onClick={ this.closePopup }>
-            <div className={ style.cross }></div>
-          </div> }
-          { this.props.children }
+      <div className={ style.overlayWrapper } onClick={ this.overlayClosePopup } data-popup="overlayWrapper">
+        <div className={ style.popupWrapper } id="popupWrapper">
+          { closeBtn &&
+            <div className={ style.closePopup } onClick={ this.closePopup }>
+              <div className={ style.cross }></div>
+            </div> }
+          { React.cloneElement(this.props.children, {closePopup: this.closePopup}, {}) }
         </div>
       </div>
     )

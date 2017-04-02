@@ -13,14 +13,12 @@
 */
 import axios from 'axios';
 
-import { SIGN_USER, UNSIGN_USER, USER_STATUS, USER_IS_NEW, UPDATE_USER } from './userTypes';
-
-import { history } from '../store';
+import { SIGN_USER, UNSIGN_USER, USER_STATUS, USER_IS_NEW, UPDATE_USER, USER_LIKES_AND_SHARES, ADD_LIKE_AND_SHARE } from './userTypes';
 
 const ROOT_URL = 'http://localhost:3090';
 
 export function signinUser(user) {
-  return function(dispatch) {
+  return dispatch => {
     // Submit user to the server
     axios.post(`${ROOT_URL}/signin`, user)
       .then(response => {
@@ -40,9 +38,9 @@ export function signinUser(user) {
       });
   }
 }
-export const updateUser = (userId, param) =>{
-  return function(dispatch) {
-    axios.put(`${ROOT_URL}/user/${userId}`,{
+export const updateUser = (userId, param) => {
+  return dispatch => {
+    axios.put(`${ROOT_URL}/user/${userId}`, {
       ...param
     })
       .then(response => {
@@ -57,9 +55,9 @@ export const updateUser = (userId, param) =>{
   }
 }
 
-export const updateUserArray = (userId, param) =>{
-  return function(dispatch) {
-    axios.put(`${ROOT_URL}/userArray/${userId}`,{
+export const updateUserArray = (userId, param) => {
+  return dispatch => {
+    axios.put(`${ROOT_URL}/userArray/${userId}`, {
       ...param
     })
       .then(response => {
@@ -74,10 +72,9 @@ export const updateUserArray = (userId, param) =>{
   }
 }
 
-export const addLikeShare = (userId, param) =>{
-      console.log(param)
-  return function(dispatch) {
-    axios.put(`${ROOT_URL}/addLikeShare/${userId}`,{
+export const addLikeShare = (userId, product, param) => {
+  return dispatch => {
+    axios.put(`${ROOT_URL}/addLikeShare/${userId}`, {
       ...param
     })
       .then(response => {
@@ -85,6 +82,13 @@ export const addLikeShare = (userId, param) =>{
           type: UPDATE_USER,
           user: response.data
         });
+
+        dispatch({
+          type: ADD_LIKE_AND_SHARE,
+          product,
+          isOn: param.isOn
+        });
+
       })
       .catch((err) => {
         console.log("error", err)

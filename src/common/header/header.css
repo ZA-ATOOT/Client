@@ -32,6 +32,9 @@
   display: inline-block;
 }
 .notification {
+  cursor: pointer;
+}
+.notificationNum {
   width: 17px;
   height: 17px;
   border: 1px solid #157EFB;

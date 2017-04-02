@@ -1,0 +1,32 @@
+.product, .seller {
+	display: flex;
+	flex-direction: row;
+}
+.sellerImage, .title, .sellerName {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.productWrapper {
+	padding: 10px 0;
+	border-top: 2px solid #eeeeee;
+	border-bottom: 1px solid #eeeeee;
+}
+.productWrapper:hover {
+	background-color: #eeeeee
+}
+.product {
+	justify-content: space-around;
+	text-align: center;
+}
+.seller {
+	width: 80%;
+  padding: 0 5%;
+}
+.sellerName {
+	justify-content: center;
+}
+.imageWrapper, .title {
+	width: 100%;
+}

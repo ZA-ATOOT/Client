@@ -10,7 +10,11 @@ export default (state = [], action) => {
         }
       ];
     case RECEIVE_PRODUCTS:
-      return action.products
+      var products = action.products
+      return [
+        ...state,
+          ...products
+      ];
       break;
     case UPDATE_PRODUCT:
     console.log(state)

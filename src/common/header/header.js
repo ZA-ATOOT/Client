@@ -17,8 +17,27 @@ import zaatootLogo from 'images/zaatootLogo.jpg';
 import facebookLogo from 'images/facebook.png';
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+    }
+  }
+
+  showNotifications = () => {
+    const { user, showNotifications, showSocialLogin } = this.props;
+
+    if (!user.id) {
+      showSocialLogin(true);
+    } else if (user.isNewUser) {
+      finishRegster();
+    } else {
+      showNotifications("headerNotification")
+    }
+
+    
+  }
   render() {
-    const {user, logoutUser, handleSocialLogin} = this.props
+    const {user, logoutUser, handleSocialLogin, showNotifications} = this.props
     return (
       <nav className={ style.navbar }>
         <ul className={ style.nav }>
@@ -44,9 +63,9 @@ class Header extends Component {
             <span className={ style.circle }></span>
             <span className={ style.halfCircle }></span>
           </li>
-          <li className={ style.navItem }>
-            <span className={ icons.icon_comment }></span>
-            <span className={ style.notification }>1</span>
+          <li className={ `${style.navItem} ${style.notification}` }>
+            <span className={ icons.icon_comment } onClick={this.showNotifications} data-id="headerNotification"></span>
+            <span className={ style.notificationNum }>1</span>
           </li>
         </ul>
       </nav>

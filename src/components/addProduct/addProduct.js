@@ -15,25 +15,25 @@ import style from './addProduct.css';
 const validate = values => {
   const errors = {}
   if (!values.title) {
-    errors.title = 'שדה חובה'
+    errors.title = true;
   }
   if (!values.description) {
-    errors.description = 'שדה חובה'
+    errors.description = true;
   }
   if (!values.image) {
-    errors.image = 'שדה חובה'
+    errors.image = true;
   }
   if (!values.price) {
-    errors.price = 'שדה חובה'
+    errors.price = true;
   }
   if (!values.age) {
-    errors.age = 'שדה חובה'
+    errors.age = true;
   }
   if (!values.city) {
-    errors.city = 'שדה חובה'
+    errors.city = true;
   }
   if (!values.address) {
-    errors.address = 'שדה חובה'
+    errors.address = true;
   }
   return errors
 }
@@ -62,18 +62,22 @@ class AddProduct extends Component {
       addCategoryMsg: false
     }
   }
-  handleNewProdact({title, description, image, price, age, sellerId, location, seller, city, address,otherCategories, ...categoriesArr}) {
-    
+  handleNewProdact({title, description, image, price, age, sellerId, location, seller, city, address, otherCategories, ...categoriesArr}) {
+
     var categories = [];
-    for (var item in categoriesArr){
+    for (var item in categoriesArr) {
       categories.push(item)
     }
 
-    if(categories.length == 0 && !otherCategories){
+    if (categories.length == 0 && !otherCategories) {
       console.log(categories)
-      this.setState({addCategoryMsg: true})
-      window.setTimeout(()=>{
-        this.setState({addCategoryMsg: false})
+      this.setState({
+        addCategoryMsg: true
+      })
+      window.setTimeout(() => {
+        this.setState({
+          addCategoryMsg: false
+        })
       }, 2000)
       return
     }
@@ -96,7 +100,7 @@ class AddProduct extends Component {
   }
 
   render() {
-    const {handleSubmit, user, initialValues, image, otherCategories} = this.props;
+    const {handleSubmit, user, initialValues, image, otherCategories, title, productToEdit} = this.props;
     return (
       <div className={ style.newProductWrapper } dir="rtl">
         { this.state.showLoader &&
@@ -104,7 +108,7 @@ class AddProduct extends Component {
             <Loader />
           </div> }
         <div className={ style.addProductTitle }>
-          הוסף מוצר
+          {title}
         </div>
         <hr />
         <form className={ style.form } onChange={ this.onChange } onSubmit={ handleSubmit(this.handleNewProdact.bind(this)) }>
@@ -135,7 +139,6 @@ class AddProduct extends Component {
                 type="text"
                 component={ renderField } />
               <Field name="sellerId"
-                placeholder="sellerId"
                 type="hidden"
                 component={ renderField } />
             </div>
@@ -150,11 +153,12 @@ class AddProduct extends Component {
           <div className={ style.categoriesTitle }>
             קטגוריות <span>(בחר לפחות קטגוריה אחת)</span>
           </div>
-          <Categories otherCategories={otherCategories}/>
-          {this.state.addCategoryMsg && <div className={style.addCategoryMsg}>*בבקשה הוסף לפחות קטגוריה אחת</div> }
+          <Categories otherCategories={ otherCategories } />
+          { this.state.addCategoryMsg && <div className={ style.addCategoryMsg }>
+                                           *בבקשה הוסף לפחות קטגוריה אחת
+                                         </div> }
           <input className={ style.submitForm } type="submit" />
         </form>
-        
       </div>
       );
   }
@@ -167,16 +171,7 @@ function mapStateToProps(state) {
     user: state.user,
     image: selector(state, "image"),
     otherCategories: selector(state, "otherCategories"),
-    initialValues: {
-      title: "אוברול",
-      description: "אוברול מגניב",
-      image: "https://s-media-cache-ak0.pinimg.com/736x/8b/b0/91/8bb091c65651375a34a07e0e7cacb9ad.jpg",
-      price: 20,
-      age: "3M",
-      city: state.user.city,
-      address: state.user.address,
-      seller: state.user
-    }
+    initialValues: state.initialProductValues
   };
 }
 
