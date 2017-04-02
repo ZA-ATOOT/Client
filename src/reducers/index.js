@@ -21,6 +21,7 @@ import productsSearchResult from './productsSearchResult';
 import moreOfTheSame from './moreOfTheSame';
 import userLikesAndShares from './userLikesAndShares';
 import initialProductValues from './initialProductValues';
+import deletedProduct from './deleteProduct'
 // Combine all our reducers togeher
 const rootReducer = combineReducers({
   form,
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   products,
   productsSearchResult,
   initialProductValues,
+  deletedProduct,
   routing: routerReducer
 });
 

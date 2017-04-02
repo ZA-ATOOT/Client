@@ -13,7 +13,7 @@
 */
 import axios from 'axios';
 
-import { ADD_PRODACT, RECEIVE_PRODUCTS, ALL_PRODUCTS, UPDATE_PRODUCT, SEARCH_PRODUCT, PRODUCTS_SEARCH_RESULT, INITIAL_PRODUCT_VALUES } from './productTypes';
+import { ADD_PRODACT, RECEIVE_PRODUCTS, ALL_PRODUCTS, UPDATE_PRODUCT, SEARCH_PRODUCT, PRODUCTS_SEARCH_RESULT, INITIAL_PRODUCT_VALUES, DELETE_PRODUCT } from './productTypes';
 
 const ROOT_URL = 'http://localhost:3090';
 
@@ -36,9 +36,9 @@ export const addProduct = (product) => {
 
 export const getAllProducts = (skip, limit) => {
   return function(dispatch) {
-    axios.get(`${ROOT_URL}/products`,{
+    axios.get(`${ROOT_URL}/products`, {
       params: {
-        skip, 
+        skip,
         limit
       }
     })
@@ -81,4 +81,17 @@ export const setInitialProductValues = (products) => {
   };
 }
 
+
+export const removeProduct = (productId) => {
+  return (dispatch) => {
+    axios.delete(`${ROOT_URL}/removeProduct/${productId}`).then((response) => {
+      dispatch({
+        type: DELETE_PRODUCT,
+        product: response.data
+      })
+    }).catch((err) => {
+      console.log("error", err)
+    });
+  }
+}
 

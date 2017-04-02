@@ -121,15 +121,22 @@ class ProductDetails extends Component {
     }
   }
 
+  removeProduct = (productId) => {
+    const { removeProduct, product } = this.props    
+    removeProduct(product._id)
+    console.log("המוצר נמחק")
+  }
+
   render() {
     const {product, user, moreOfTheSame} = this.props;
+
     const { showEditProduct, newProduct } = this.state;
     var productDetails = newProduct || product;
     var usreLike = user.like.indexOf(productDetails._id) > -1;
     var usreShare = user.share.indexOf(productDetails._id) > -1;
     var categoriesConncat = productDetails.otherCategories ? productDetails.categories.concat(productDetails.otherCategories.split(",")) : productDetails.categories;
     var moreOfTheSameItems = this.handleMoreOfTheSame(productDetails);
-
+    
     return (
       <div className={ style.showDetails } dir="rtl">
         {!showEditProduct && <ul className={ style.product }>
@@ -164,7 +171,7 @@ class ProductDetails extends Component {
                         </div>
                         <div className={ `${icons.icon_pencil} ${style.icons}` }></div>
                       </li>
-                      <li className={ `${style.save} ${style.iconsWrapper}` } title="remove">
+                      <li className={ `${style.save} ${style.iconsWrapper}` } title="remove" onClick={this.removeProduct}>
                         <div className={ style.iconsText }>
                           הסר
                         </div>
@@ -240,7 +247,8 @@ const mapStateToProps = (state) => {
   return {
     searches: state.searches,
     user: state.user,
-    moreOfTheSame: state.moreOfTheSame
+    moreOfTheSame: state.moreOfTheSame,
+    deletedProduct: state.deletedProduct
   }
 }
 

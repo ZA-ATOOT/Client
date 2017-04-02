@@ -5,5 +5,6 @@ export const UPDATE_PRODUCT = 'update_prodact';
 export const SEARCH_PRODUCT = 'search_prodact';
 export const PRODUCTS_SEARCH_RESULT = 'products_search_result';
 export const INITIAL_PRODUCT_VALUES = 'initial_product_values';
+export const DELETE_PRODUCT = 'delete_product';
 
 

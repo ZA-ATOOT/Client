@@ -65,8 +65,9 @@ class ProductList extends Component {
 
   }
   render() {
-    const {products} = this.props;
+    const {products, deletedProduct} = this.props;
     const {pageNumber, skipBy, isVisible} = this.state;
+    console.log(deletedProduct)
     if (products.length == 0) {
       return (
         <Loader />
@@ -77,6 +78,9 @@ class ProductList extends Component {
       <div>
         <div className={ style.productWrapper }>
           { products.map((val, index) => {
+              if (deletedProduct && val._id == deletedProduct._id) {
+                return false
+              }
               if (val.available) {
                 if ((index + 1) % skipBy == 0 || index == 0) {
                   if (this.pageNumber.indexOf(index) < 0 && isVisible == index) {
@@ -124,6 +128,12 @@ class ProductList extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    deletedProduct: state.deletedProduct
+  }
+}
 
-export default connect(null, productActions)(ProductList)
+
+export default connect(mapStateToProps, productActions)(ProductList)
 
